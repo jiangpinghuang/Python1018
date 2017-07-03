@@ -25,7 +25,7 @@ from torch.autograd import Variable
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--word_dim', dest='word_dim', type=int, help='embedding dimension', default=20)
-parser.add_argument('--hid_dim', dest='hid_dim', type=int, help='hidden dimension', default=100)
+parser.add_argument('--hid_dim', dest='hid_dim', type=int, help='hidden dimension', default=50)
 parser.add_argument('--epochs', dest='epochs', type=int, help='epochs for model training', default=10)
 parser.add_argument('--learning_rate', dest='learning_rate', type=float, help='learning_rate', default=1e-3)
 parser.add_argument('--num_class', dest='num_class', type=int, help='classes of output', default=2)
@@ -56,23 +56,23 @@ class RvNN(nn.Module):
         
         for i in range(len(left) - 1):
             if i == 0:
-                c1 = self.relu(self.linear1((torch.cat((left[i], left[i + 1]), 0)).view(1, -1)))
-                c1 = self.relu(self.linear2(c1))
-                c1 = self.relu(self.linear2(c1))
+                c1 = self.linear1((torch.cat((left[i], left[i + 1]), 0)).view(1, -1))
+                #c1 = self.relu(self.linear2(c1))
+                c1 = self.linear2(c1)
             else:
-                c1 = self.relu(self.linear1((torch.cat((c1.view(word_dim, -1), left[i + 1]), 0)).view(1, -1)))
-                c1 = self.relu(self.linear2(c1))
-                c1 = self.relu(self.linear2(c1))
+                c1 = self.linear1((torch.cat((c1.view(word_dim, -1), left[i + 1]), 0)).view(1, -1))
+                #c1 = self.relu(self.linear2(c1))
+                c1 = self.linear2(c1)
                 
         for j in range(len(right) - 1):
             if j == 0:
-                c2 = self.relu(self.linear1((torch.cat((right[j], right[j + 1]), 0)).view(1, -1)))
-                c2 = self.relu(self.linear2(c2))
-                c2 = self.relu(self.linear2(c2))
+                c2 = self.linear1((torch.cat((right[j], right[j + 1]), 0)).view(1, -1))
+                #c2 = self.relu(self.linear2(c2))
+                c2 = self.linear2(c2)
             else:
-                c2 = self.relu(self.linear1((torch.cat((c2.view(word_dim, -1), right[j + 1]), 0)).view(1, -1)))
-                c2 = self.relu(self.linear2(c2))
-                c2 = self.relu(self.linear2(c2))
+                c2 = self.linear1((torch.cat((c2.view(word_dim, -1), right[j + 1]), 0)).view(1, -1))
+                #c2 = self.relu(self.linear2(c2))
+                c2 = self.linear2(c2)
         
         print("c1: ", c1)
         print("c2: ", c2)        
