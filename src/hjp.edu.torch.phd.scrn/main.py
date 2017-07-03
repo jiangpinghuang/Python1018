@@ -4,7 +4,7 @@
 @description: There is a recursive neural network based on semantic composition for textual similarity.
 @author: Jiangping Huang (hjp@whu.edu.cn).
 @copyright: All right reserved.
-@license: The code is released under the MIT license.
+@license: The code is released under the Apache License.
 @version: Alpha.
 """
 
