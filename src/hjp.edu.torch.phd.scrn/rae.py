@@ -3,6 +3,27 @@
 # 
 # @author: hjp
 # '''
+
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from torch.autograd import Variable
+
+torch.manual_seed(314159265)
+
+class RAE(nn.Module):
+    def __init__(self, word_dim, hid_dim):
+        super(RAE, self).__init__()
+        self.Wec = nn.Linear(2 * word_dim, word_dim)
+        self.Weh = nn.Linear(word_dim, hid_dim)
+        self.Whd = nn.Linear(hid_dim, word_dim)
+        self.Wdc = nn.Linear(word_dim, 2 * word_dim)
+        self.tanh = nn.Tanh()
+        
+    def encoder(self):
+        x = x
+
+
 # 
 # import numpy as np
 # import torch
