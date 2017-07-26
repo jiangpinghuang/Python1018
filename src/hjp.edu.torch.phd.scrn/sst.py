@@ -1,7 +1,8 @@
+# Stanford Sentiment Corpus for label and sentence.
 
 def main():    
-    srcFile = "/Users/hjp/Downloads/SST/dev.txt"
-    tarFile = "/Users/hjp/Downloads/SST/devs.txt"
+    srcFile = "/Users/hjp/MacBook/Workspace/Workshop/Corpus/ssc/ssc_train.txt"
+    tarFile = "/Users/hjp/MacBook/Workspace/Workshop/Corpus/ssc/tar_train.txt"
     
     wFile = open(tarFile, 'w')
     
