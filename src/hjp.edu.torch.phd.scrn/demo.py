@@ -44,5 +44,23 @@ class RecursiveAutoEncoder(nn.Module):
         encode = self.tanh(self.WeH2E(self.tanh(self.WeP2H(self.tanh(self.WeC2P(parent))))))
         scores = self.soft(self.tanh(self.WeE2C(encode)))
         return parent, encode, scores
+    
+    def decoder(self, encode):
+        return self.tanh(self.WdP2C(self.tanh(self.WdH2P(self.tanh(self.WdE2H(encode))))))
+    
+    def forward(self, children):
+        parent, encode, scores = self.encoder(children)
+        decode = self.decoder(encode)
+        return parent, encode, scores, decode
+    
+rae = RecursiveAutoEncoder(args.word_dim, args.hid_size, args.enc_size, args.num_cate)
+print(rae)
+criterion = nn.MSELoss()
+optimizer = optim.SGD(rae.parameters(), lr=args.learning_rate)
+
+input = Variable(torch.FloatTensor(torch.randn(10,20, 20)))
+print(input)
+label = Variable(torch.IntTensor([1, 2, 1, 4, 0, 2, 3, 0, 2, 3]))
+print(label)
         
         
