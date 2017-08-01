@@ -27,7 +27,7 @@ parser.add_argument('--init_weight', dest='init_weight', type=float, help='initi
 parser.add_argument('--sem_com', dest='sem_com', type=bool, help='if semantic composition', default=False)
 parser.add_argument('--seed', dest='seed', type=long, help='random seed', default=2718281828459045232536)
 parser.add_argument('--emb_file', dest='emb_file', type=str, help='embedding file', default='/Users/hjp/MacBook/Workspace/Workshop/Corpus/bin/text.txt')
-parser.add_argument('--data_file', dest='data_file', type=str, help='data file', default='/Users/hjp/MacBook/Workspace/Workshop/Corpus/ssc/')
+parser.add_argument('--data_file', dest='data_file', type=str, help='data file', default='/Users/hjp/MacBook/Workspace/Workshop/Corpus/tmp/')
 
 args = parser.parse_args()
 use_gpu = torch.cuda.is_available()
@@ -106,13 +106,13 @@ def read_corpus(emb_voc, emb_vec):
             train_data.append(sents[0] + "\t" + sents[2] + "\t" + sents[4])
             ssc_voc, ssc_vec = build_embedding(ssc_voc, ssc_vec, sents[2], emb_voc, emb_vec)
                         
-    with open(os.path.join(args.data_file, 'valid.txt')) as lines:
+    with open(os.path.join(args.data_file, 'train.txt')) as lines:
         for line in lines:
             sents = line.lower().split('\t')
             valid_data.append(sents[0] + "\t" + sents[2] + "\t" + sents[4])
             ssc_voc, ssc_vec = build_embedding(ssc_voc, ssc_vec, sents[2], emb_voc, emb_vec)
     
-    with open(os.path.join(args.data_file, 'test.txt')) as lines:
+    with open(os.path.join(args.data_file, 'train.txt')) as lines:
         for line in lines:
             sents = line.lower().split('\t')
             test_data.append(sents[0] + "\t" + sents[2] + "\t" + sents[4])
