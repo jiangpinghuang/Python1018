@@ -6,7 +6,7 @@ import time
 import random
 import argparse
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 
 import torch
 import torch.nn as nn
@@ -165,14 +165,15 @@ if use_gpu:
     nll_criterion = nll_criterion.cuda()
     cel_criterion = cel_criterion.cuda()
 print(rae)
-loss_storage = []
-accu_storage = []
+#loss_storage = []
+#accu_storage = []
 
 def train():
     emb_voc, emb_vec = read_embedding()
     train_data, valid_data, test_data, ssc_voc, ssc_vec = read_corpus(emb_voc, emb_vec)    
     
     for i in range(args.epochs):
+        start = time.time()
         train_loss, correct = 0, 0
         random.shuffle(train_data)
         random.shuffle(valid_data)
@@ -195,7 +196,7 @@ def train():
                     #print(loss.data[0])                                      
                     loss = args.alpha * loss + (1 - args.alpha) * cel_criterion(scores, Variable(label))
                     #print(nll_criterion(scores, Variable(label)))
-                    train_loss = train_loss + loss.data[0]
+                    #train_loss = train_loss + loss.data[0]
                     #print(i, j, loss.data[0])  
                     _, predicted = torch.max(scores.data, 1)
                     if predicted[0][0] == label[0]:
@@ -203,9 +204,9 @@ def train():
                 loss.backward()    
                 optimizer.step()
                 parent = Variable(normalize_parent(parent.data)).data.view(args.word_dim, -1)
-        loss_storage.append(train_loss / len(train_data))  
+        #loss_storage.append(train_loss / len(train_data))  
         #print("Epochs: ", (i+1), " Accuracy: ", correct / len(valid_data))  
-        accu_storage.append(correct / len(train_data))  
+        #accu_storage.append(correct / len(train_data))  
         
         valid_correct = 0
         for j in range(len(valid_data)):
@@ -226,8 +227,10 @@ def train():
                         valid_correct += 1 
                 parent = Variable(normalize_parent(parent.data)).data.view(args.word_dim, -1)
         #print("Valid Accuracy: ", valid_correct / len(valid_data))
-        print("Epochs: ", (i+1), " Train Acc: ", correct / len(train_data), " Valid Acc: ", valid_correct / len(valid_data))  
-        
+        end = time.time()
+        print("Epochs: ", (i+1), " Train Acc: ", correct / len(train_data), " Valid Acc: ", valid_correct / len(valid_data), " Cost time: " + set_timer(end-start))  
+    
+    start = time.time()   
     test_correct = 0
     random.shuffle(test_data)
     for j in range(len(test_data)):
@@ -246,8 +249,9 @@ def train():
                 _, predicted = torch.max(scores.data, 1)
                 if predicted[0][0] == label[0]:
                     test_correct += 1 
-            parent = Variable(normalize_parent(parent.data)).data.view(args.word_dim, -1)   
-    print("Test Accuracy: ", test_correct / len(test_data))                    
+            parent = Variable(normalize_parent(parent.data)).data.view(args.word_dim, -1) 
+    end = time.time()  
+    print("Test Accuracy: ", test_correct / len(test_data), " Cost time: " + set_timer(end-start))                    
 
 def main():
     start = time.time()
@@ -257,10 +261,10 @@ def main():
         print("The model cost " + set_timer(end - start) + " for training with semantic composition pattern.")
     else:
         print("The model cost " + set_timer(end - start) + " for training with single word embedding pattern.")
-    plt.plot(range(args.epochs), loss_storage, label="loss_valid", color="red")
-    plt.plot(range(args.epochs), accu_storage, label="accu_valid", color="green")
-    plt.legend()
-    plt.show() 
+    #plt.plot(range(args.epochs), loss_storage, label="loss_valid", color="red")
+    #plt.plot(range(args.epochs), accu_storage, label="accu_valid", color="green")
+    #plt.legend()
+    #plt.show() 
          
 if __name__ == "__main__":
     main()
