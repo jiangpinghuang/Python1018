@@ -358,6 +358,14 @@ def main():
     plt.plot(range(args.epochs), accu_storage, label="accuracy", color="green")
     plt.legend()
     plt.show() 
-         
+#     for i in range(10):
+#         loss_storage.append(0.1 * i)
+#         accu_storage.append(0.1 * i * 2)
+#     
+#     plt.plot(range(10), loss_storage, label="loss", color="red")
+#     plt.plot(range(10), accu_storage, label="accuracy", color="green")
+#     plt.legend()
+#     plt.show()     
+#          
 if __name__ == "__main__":
     main()
